@@ -19,34 +19,32 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Lockery'),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.qr_code),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: screens.elementAt(tabIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: tabIndex,
-          onTap: (value) {
-            setState(() {
-              tabIndex = value;
-            });
-          },
-          type: BottomNavigationBarType.fixed,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'My Lockers')
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Lockery'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.qr_code),
+          )
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: screens.elementAt(tabIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: tabIndex,
+        onTap: (value) {
+          setState(() {
+            tabIndex = value;
+          });
+        },
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.lock), label: 'My Lockers')
+        ],
       ),
     );
   }

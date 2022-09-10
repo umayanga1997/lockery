@@ -22,10 +22,7 @@ class LockersWidget extends StatelessWidget {
             return SizedBox(
               height: msSize,
               child: const Center(
-                child: Progressor(
-                  height: 30,
-                  width: 30,
-                ),
+                child: Progressor(),
               ),
             );
           }

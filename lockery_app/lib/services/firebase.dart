@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-var fireStore = FirebaseFirestore.instance;
+FirebaseFirestore fireStore = FirebaseFirestore.instance;
+FirebaseAuth auth = FirebaseAuth.instance;
+GoogleSignIn googleSignIn = GoogleSignIn();
 
 var lockersCollection = fireStore.collection('lockers');
 var userCollection = fireStore.collection('users');
