@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "912758106768-qrsaclnf4hiff5f3fbf5gk30u0cosku8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lockery_app",
+            "certificate_hash": "a85e1c1f24a21056a9ba27ccb58543c51bd0d13e"
+          }
+        },
+        {
           "client_id": "912758106768-qlsl57t7mjbmru6pfmvirm2c5d52am99.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -4,7 +4,7 @@ import 'package:lockery_app/models/booked_data.dart';
 
 bool isCurrentUserLocker(var value) {
   try {
-    BookedDataModel data = json.decode(value);
+    BookedDataModel data = BookedDataModel.fromJson(json.decode(value));
     return data.userId == FirebaseAuth.instance.currentUser!.uid;
   } catch (e) {
     return false;

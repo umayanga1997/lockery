@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lockery_app/helpers/helpers.dart';
 import 'package:lockery_app/models/models.dart';
+import 'package:lockery_app/screen/payment.dart';
 import 'package:lockery_app/services/services.dart';
 import 'package:uuid/uuid.dart';
 
@@ -26,14 +27,20 @@ class _LockerCardState extends State<LockerCard> {
       child: InkWell(
         onTap: () {
           try {
-            if (widget.lockerModel.isLocked!) {
-              if (isCurrentUserLocker(widget.lockerModel.bookedDataEncode)) {
-                // Payment Page view
-              } else {
-                errorMessage(message: "The locker is locked!");
-              }
+            if (widget.lockerModel.isLocked! &&
+                isCurrentUserLocker(widget.lockerModel.bookedDataEncode)) {
+              // Payment Page view
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PaymentScreen(),
+                ),
+              );
+            } else if (isCurrentUserLocker(
+                widget.lockerModel.bookedDataEncode)) {
+              successMessage(message: "The locker was booked by you!!");
             } else if (!widget.lockerModel.isAvailable!) {
-              notAvailableMessage(message: "The locker is not available!");
+              errorMessage(message: "The locker is not available!");
             } else {
               // Generate Booking Id
               const uuid = Uuid();
@@ -49,6 +56,8 @@ class _LockerCardState extends State<LockerCard> {
               // Update Locker
               lockersCollection.doc(widget.lockerModel.lockerId!).update({
                 'isAvailable': false,
+                // 'isClosed': true,
+                // 'isLocked': false,
                 'bookedDataEncode': encodeData,
                 'final_booked_date': DateTime.now(),
                 'final_end_date': DateTime.now().add(const Duration(days: 2)),
@@ -75,37 +84,26 @@ class _LockerCardState extends State<LockerCard> {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    !widget.lockerModel.isLocked!
-                        ? Icon(
-                            isCurrentUserLocker(
-                                    widget.lockerModel.bookedDataEncode)
-                                ? Icons.person
-                                : Icons.work,
-                            color: isCurrentUserLocker(
-                                    widget.lockerModel.bookedDataEncode)
-                                ? mainColor
-                                : widget.lockerModel.isAvailable!
-                                    ? greenColor
-                                    : redColor,
-                          )
-                        : Icon(
-                            Icons.punch_clock,
-                            color: redColor,
-                          ),
-                    !widget.lockerModel.isLocked!
-                        ? Text(
-                            widget.lockerModel.isAvailable!
-                                ? 'Available'
-                                : isCurrentUserLocker(
-                                        widget.lockerModel.bookedDataEncode)
-                                    ? 'Your Locker'
-                                    : 'Not Available',
-                            style: TextStyle(color: greyColor2),
-                          )
-                        : Text(
-                            'Locked',
-                            style: TextStyle(color: greyColor2),
-                          ),
+                    Icon(
+                      isCurrentUserLocker(widget.lockerModel.bookedDataEncode)
+                          ? Icons.person
+                          : Icons.work,
+                      color: isCurrentUserLocker(
+                              widget.lockerModel.bookedDataEncode)
+                          ? mainColor
+                          : widget.lockerModel.isAvailable!
+                              ? greenColor
+                              : redColor,
+                    ),
+                    Text(
+                      widget.lockerModel.isAvailable!
+                          ? 'Available'
+                          : isCurrentUserLocker(
+                                  widget.lockerModel.bookedDataEncode)
+                              ? 'Your Locker'
+                              : 'Not Available',
+                      style: TextStyle(color: greyColor2),
+                    )
                   ],
                 ),
               ),
