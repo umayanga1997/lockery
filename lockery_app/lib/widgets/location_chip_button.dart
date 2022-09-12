@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lockery_app/controllers/controllers.dart';
+import 'package:lockery_app/controllers/rack_select_controller.dart';
 import 'package:lockery_app/helpers/helpers.dart';
 import 'package:lockery_app/models/locations.dart';
 import 'package:provider/provider.dart';
@@ -15,8 +16,13 @@ class LocationChipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () =>
-          context.read<LocationSelectController>().changeLocation(data),
+      onTap: () {
+        if (context.read<LocationSelectController>().currentValue != data) {
+          context.read<LocationSelectController>().changeLocation(data);
+          context.read<RackSelectController>().changeRack(null);
+        }
+      },
+      borderRadius: BorderRadius.circular(15.0),
       child: Chip(
         label: Text(data.name!),
         backgroundColor: isSelected ? greenColor : whiteColor,

@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 class RackSelectController extends ChangeNotifier {
   String? rackID;
-  void changeLocation(String value) {
-    rackID = value;
-    notifyListeners();
+  void changeRack(String? value) {
+    if (rackID != value) {
+      rackID = value;
+      notifyListeners();
+    }
   }
 }

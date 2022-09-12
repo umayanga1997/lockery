@@ -14,8 +14,7 @@ class RackChipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () =>
-          context.read<RackSelectController>().changeLocation(data.id!),
+      onTap: () => context.read<RackSelectController>().changeRack(data.id!),
       child: Chip(
         label: Text(data.name!),
         backgroundColor: isSelected ? greenColor : whiteColor,
