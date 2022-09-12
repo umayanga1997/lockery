@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Future adddata() async {
   //   try {
   //     for (LockerModel element in lockers) {
-  //       lockersCollection.doc(element.lockerId).set({...element.toJson()});
+  //       lockersCollection.doc(element.lockerId).update({...element.toJson()});
   //     }
   //   } catch (e) {
   //     print(e);
