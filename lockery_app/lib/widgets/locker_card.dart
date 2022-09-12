@@ -16,6 +16,70 @@ class LockerCard extends StatefulWidget {
 }
 
 class _LockerCardState extends State<LockerCard> {
+  void askDialog(BuildContext context) {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return FittedBox(
+            child: AlertDialog(
+              content: const Text('Do you want to get this locker?'),
+              // contentPadding: const EdgeInsets.all(5),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('No'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    // Generate Booking Id
+                    const uuid = Uuid();
+                    var bookingId = uuid.v4();
+
+                    // Create Encode Data
+                    var encodeData = json.encode(BookedDataModel(
+                      userId: FirebaseAuth.instance.currentUser!.uid,
+                      bookingId: bookingId,
+                      lockerId: widget.lockerModel.lockerId!,
+                    ).toJson());
+
+                    // Update Locker
+                    lockersCollection.doc(widget.lockerModel.lockerId!).update({
+                      'isAvailable': false,
+                      // 'isClosed': true,
+                      // 'isLocked': false,
+                      'bookedDataEncode': encodeData,
+                      'final_booked_date': DateTime.now(),
+                      'final_end_date':
+                          DateTime.now().add(const Duration(days: 2)),
+                    }).then((value) {
+                      bookedCollection.doc(bookingId).set({
+                        'booked_id': bookingId,
+                        'bookedDataEncode': encodeData,
+                        'booked_date': DateTime.now(),
+                        'end_date': DateTime.now().add(const Duration(days: 2)),
+                        'total_price': 1200.00,
+                      }).then((value) {
+                        successMessage(
+                            message: 'locker booking is successful!');
+                        Navigator.pop(context);
+                      });
+                    }).catchError((onError) => errorMessage(message: onError));
+                  },
+                  child: const Text('Yes'),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      //
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,35 +106,7 @@ class _LockerCardState extends State<LockerCard> {
             } else if (!widget.lockerModel.isAvailable!) {
               errorMessage(message: "The locker is not available!");
             } else {
-              // Generate Booking Id
-              const uuid = Uuid();
-              var bookingId = uuid.v4();
-
-              // Create Encode Data
-              var encodeData = json.encode(BookedDataModel(
-                userId: FirebaseAuth.instance.currentUser!.uid,
-                bookingId: bookingId,
-                lockerId: widget.lockerModel.lockerId!,
-              ).toJson());
-
-              // Update Locker
-              lockersCollection.doc(widget.lockerModel.lockerId!).update({
-                'isAvailable': false,
-                // 'isClosed': true,
-                // 'isLocked': false,
-                'bookedDataEncode': encodeData,
-                'final_booked_date': DateTime.now(),
-                'final_end_date': DateTime.now().add(const Duration(days: 2)),
-              }).then((value) {
-                bookedCollection.doc(bookingId).set({
-                  'booked_id': bookingId,
-                  'bookedDataEncode': encodeData,
-                  'booked_date': DateTime.now(),
-                  'end_date': DateTime.now().add(const Duration(days: 2)),
-                  'total_price': 1200.00,
-                }).then((value) =>
-                    successMessage(message: 'locker booking is successful!'));
-              }).catchError((onError) => errorMessage(message: onError));
+              askDialog(context);
             }
           } catch (e) {
             errorMessage(message: e.toString());
