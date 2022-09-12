@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lockery_app/helpers/helpers.dart';
 import 'package:lockery_app/models/models.dart';
-import 'package:lockery_app/screen/payment.dart';
+import 'package:lockery_app/screens/payment.dart';
 import 'package:lockery_app/services/services.dart';
 import 'package:uuid/uuid.dart';
 
@@ -108,6 +108,46 @@ class _LockerCardState extends State<LockerCard> {
                 ),
               ),
             ),
+            isCurrentUserLocker(widget.lockerModel.bookedDataEncode)
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            widget.lockerModel.isLocked!
+                                ? Icons.lock
+                                : widget.lockerModel.isClosed!
+                                    ? Icons.key
+                                    : Icons.open_in_new_rounded,
+                            size: 18,
+                            color: widget.lockerModel.isLocked!
+                                ? redColor
+                                : greyColor1,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: Text(
+                              widget.lockerModel.isLocked!
+                                  ? 'Locked'
+                                  : widget.lockerModel.isClosed!
+                                      ? 'Closed'
+                                      : 'Opend',
+                              style: TextStyle(
+                                color: widget.lockerModel.isLocked!
+                                    ? redColor
+                                    : greyColor1,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
             Center(
               child: Text(
                 widget.lockerModel.lockerName!,

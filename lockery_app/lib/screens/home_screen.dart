@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lockery_app/helpers/data.dart';
+import 'package:lockery_app/models/models.dart';
+import 'package:lockery_app/services/firebase.dart';
 import 'package:lockery_app/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,14 +17,23 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     // adddata();
+    // addrackdata();
   }
 
   // Future adddata() async {
   //   try {
-  //     var firebase = FirebaseFirestore.instance;
-  //     var collection = firebase.collection('lockers');
   //     for (LockerModel element in lockers) {
-  //       collection.doc(element.lockerId).set({...element.toJson()});
+  //       lockersCollection.doc(element.lockerId).set({...element.toJson()});
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // Future addrackdata() async {
+  //   try {
+  //     for (RackModel element in racks) {
+  //       racksCollection.doc(element.id).set({...element.toJson()});
   //     }
   //   } catch (e) {
   //     print(e);
@@ -35,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Column(
         children: [
           const LocationsWidget(),
+          const Rackers(),
           LockersWidget(isMyLockers: widget.isMyLockers),
         ],
       ),

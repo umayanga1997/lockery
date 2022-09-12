@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:lockery_app/screen/main_screen.dart';
-import 'package:lockery_app/screen/signin_screen.dart';
+import 'package:lockery_app/screens/main_screen.dart';
+import 'package:lockery_app/screens/signin_screen.dart';
 import 'package:lockery_app/services/firebase.dart';
 import 'package:lockery_app/widgets/progressor.dart';
 

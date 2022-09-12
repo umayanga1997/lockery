@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lockery_app/screen/home_screen.dart';
+import 'package:lockery_app/screens/home_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

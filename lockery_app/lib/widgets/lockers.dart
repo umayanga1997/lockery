@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:lockery_app/controllers/controllers.dart';
+import 'package:lockery_app/controllers/rack_select_controller.dart';
 import 'package:lockery_app/helpers/helpers.dart';
 import 'package:lockery_app/models/locker.dart';
 import 'package:lockery_app/services/services.dart';
@@ -51,15 +51,12 @@ class LockersWidget extends StatelessWidget {
                 .toList();
           }
 
-          // Filter by location
-          String location =
-              context.watch<LocationSelectController>().currentValue.name!;
+          // Filter by Rack Id
+          String rackID = context.watch<RackSelectController>().rackID ?? "";
 
-          if (location != "All") {
-            lockers.retainWhere((element) => location
-                .toLowerCase()
-                .contains(element.lockerLocation!.name!.toLowerCase()));
-          }
+          lockers.retainWhere((element) => rackID
+              .toLowerCase()
+              .contains((element.rackId ?? "").toLowerCase()));
 
           return lockers.isEmpty
               ? SizedBox(
@@ -70,7 +67,7 @@ class LockersWidget extends StatelessWidget {
                 )
               : GridView.builder(
                   itemCount: lockers.length,
-                  padding: const EdgeInsets.only(bottom: 80),
+                  padding: const EdgeInsets.only(bottom: 80.0, top: 15.0),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 5,

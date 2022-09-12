@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lockery_app/controllers/controllers.dart';
+import 'package:lockery_app/controllers/rack_select_controller.dart';
 import 'package:lockery_app/layout.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +13,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LocationSelectController(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => RackSelectController(),
         ),
       ],
       child: const MyApp(),
