@@ -18,21 +18,30 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // Once signed in, return the UserCredential
-    await auth.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      await auth.signInWithCredential(credential).then((value) {
+        userCollection.doc(value.user!.uid).set({
+          'user_id': value.user!.uid,
+          'user_name': value.user!.displayName,
+        });
+      });
+    } catch (e) {
+      errorMessage(message: e.toString());
+    }
   }
 
   @override

@@ -1,6 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:lockery_app/helpers/colors.dart';
 import 'package:lockery_app/screens/home_screen.dart';
 import 'package:lockery_app/screens/scanner_screen.dart';
+import 'package:lockery_app/services/services.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -17,6 +24,57 @@ class _MainScreenState extends State<MainScreen> {
       isMyLockers: true,
     )
   ];
+  @override
+  void initState() {
+    super.initState();
+    fcmInit();
+  }
+
+  fcmInit() async {
+    await fcmToken();
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage? message) {
+      RemoteNotification notification = message!.notification!;
+      AndroidNotification android = message.notification!.android!;
+      if (notification != (null) && android != (null) && !kIsWeb) {
+        // Action
+      }
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage? message) {
+      RemoteNotification notification = message!.notification!;
+      AndroidNotification android = message.notification!.android!;
+      if (notification != (null) && android != (null) && !kIsWeb) {
+        // Action
+      }
+    });
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) async {
+      RemoteNotification notification = message!.notification!;
+      AndroidNotification android = message.notification!.android!;
+      if (notification != (null) && android != (null) && !kIsWeb) {
+        AwesomeNotifications().createNotification(
+          content: NotificationContent(
+            id: notification.hashCode,
+            title: notification.title,
+            body: notification.body,
+            channelKey: 'booked_notification',
+            color: whiteColor,
+            payload: Map<String, String>.from(message.data),
+          ),
+        );
+      }
+    });
+  }
+
+  fcmToken() async {
+    try {
+      var token = await FirebaseMessaging.instance.getToken();
+      var userId = FirebaseAuth.instance.currentUser!.uid;
+      userCollection.doc(userId).update({'fcm_token': token});
+    } catch (e) {
+      errorMessage(message: e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +92,13 @@ class _MainScreenState extends State<MainScreen> {
               );
             },
             icon: const Icon(Icons.qr_code),
-          )
+          ),
+          IconButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+            },
+            icon: const Icon(Icons.logout),
+          ),
         ],
       ),
       body: Padding(
