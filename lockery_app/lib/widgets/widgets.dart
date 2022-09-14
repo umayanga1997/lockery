@@ -6,3 +6,4 @@ export 'lockers.dart';
 export 'progressor.dart';
 export 'rack_chip_button.dart';
 export 'racks.dart';
+export 'qr_overlay.dart';

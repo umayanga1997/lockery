@@ -18,9 +18,7 @@ class LayoutScreen extends StatelessWidget {
             return LayoutBuilder(
               builder: (context, constraints) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: Progressor(),
-                  );
+                  return const Progressor();
                 } else if (snapshot.hasError) {
                   return const Center(
                     child: Text('Something went wrong!'),

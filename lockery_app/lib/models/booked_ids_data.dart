@@ -1,11 +1,11 @@
-class BookedDataModel {
+class BookedIDsDataModel {
   String? userId;
   String? bookingId;
   String? lockerId;
 
-  BookedDataModel({this.userId, this.bookingId, this.lockerId});
+  BookedIDsDataModel({this.userId, this.bookingId, this.lockerId});
 
-  BookedDataModel.fromJson(Map<String, dynamic> json) {
+  BookedIDsDataModel.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
     bookingId = json['booking_id'];
     lockerId = json['locker_id'];

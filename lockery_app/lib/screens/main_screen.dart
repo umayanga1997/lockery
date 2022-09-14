@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lockery_app/screens/home_screen.dart';
+import 'package:lockery_app/screens/scanner_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -24,7 +25,14 @@ class _MainScreenState extends State<MainScreen> {
         title: const Text('Lockery'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ScannerScreen(),
+                ),
+              );
+            },
             icon: const Icon(Icons.qr_code),
           )
         ],

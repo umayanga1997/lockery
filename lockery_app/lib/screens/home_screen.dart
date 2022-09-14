@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lockery_app/helpers/data.dart';
-import 'package:lockery_app/models/models.dart';
-import 'package:lockery_app/services/firebase.dart';
 import 'package:lockery_app/widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {

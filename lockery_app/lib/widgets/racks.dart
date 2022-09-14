@@ -26,8 +26,8 @@ class _RackersState extends State<Rackers> {
         stream: racksCollection.snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: Progressor(),
+            return const Progressor(
+              isCircular: false,
             );
           }
           if (snapshot.hasError) {

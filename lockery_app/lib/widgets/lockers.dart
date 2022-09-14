@@ -21,9 +21,7 @@ class LockersWidget extends StatelessWidget {
           if (!snapshot.hasData) {
             return SizedBox(
               height: msSize,
-              child: const Center(
-                child: Progressor(),
-              ),
+              child: const Progressor(),
             );
           }
           if (snapshot.hasError) {

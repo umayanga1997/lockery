@@ -39,7 +39,7 @@ class _LockerCardState extends State<LockerCard> {
                     var bookingId = uuid.v4();
 
                     // Create Encode Data
-                    var encodeData = json.encode(BookedDataModel(
+                    var encodeData = json.encode(BookedIDsDataModel(
                       userId: FirebaseAuth.instance.currentUser!.uid,
                       bookingId: bookingId,
                       lockerId: widget.lockerModel.lockerId!,
@@ -97,7 +97,10 @@ class _LockerCardState extends State<LockerCard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PaymentScreen(),
+                  builder: (context) => PaymentScreen(
+                    data: BookedIDsDataModel.fromJson(
+                        jsonDecode(widget.lockerModel.bookedDataEncode!)),
+                  ),
                 ),
               );
             } else if (isCurrentUserLocker(
