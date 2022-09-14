@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lockery_app/helpers/helpers.dart';
 import 'package:lockery_app/models/models.dart';
 import 'package:lockery_app/screens/payment.dart';
+import 'package:lockery_app/screens/scanner_screen.dart';
 import 'package:lockery_app/services/services.dart';
 import 'package:uuid/uuid.dart';
 
@@ -105,7 +106,15 @@ class _LockerCardState extends State<LockerCard> {
               );
             } else if (isCurrentUserLocker(
                 widget.lockerModel.bookedDataEncode)) {
-              successMessage(message: "The locker was booked by you!!");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ScannerScreen(),
+                ),
+              );
+              successMessage(
+                  message:
+                      "The locker was booked by you!, Please Scan the QR Code.");
             } else if (!widget.lockerModel.isAvailable!) {
               errorMessage(message: "The locker is not available!");
             } else {
